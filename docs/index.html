@@ -59,7 +59,7 @@
             <td style="vertical-align: top;">
                 <div style="display: flex;flex-wrap: wrap;align-items: flex-start; border:0;">
                     <div v-for="(o,i) in data" class="flex-item flex-title" @dblclick="deleteTitle(o,i)">
-                        <input type="radio" name="title" :value="i" @click="selectTitle(i)">{{o.title}}
+                        <input type="radio" :ref="'radio_'+i" name="title" :value="i" @click="selectTitle(i)">{{o.title}}
                     </div>
                     <input ref="titleInput" v-model="title" class="url flex-item flex-title"
                            placeholder="填写分类，回车确定" @keyup.Enter="addTitle">
@@ -119,7 +119,13 @@
                 }
             },
             addTitle() {
-                this.setTitle(this.title);
+                if (!this.setTitle(this.title)) {
+                    return false;
+                }
+                this.$nextTick(() => {
+                    this.$refs['radio_' + (this.data.length - 1)][0].click();
+                    this.$nextTick(() => this.$refs.urlInput.focus());
+                });
             },
             setTitle() {
                 let find = this.data.find(o => o.title === this.title);
@@ -131,6 +137,7 @@
                 this.data.push({title: this.title, list: []});
                 this.set('data', JSON.stringify(this.data));
                 this.title = '';
+                return true;
             },
             deleteTitle(obj, idx) {
                 if (confirm(`确定删除 [${obj.title}] 分类？`)) {
