@@ -1,0 +1,6 @@
+[SmartProxy Servers]
+127.0.0.1:10808 [SOCKS5] [v2rayN_socks]
+127.0.0.1:10809 [HTTPS] [v2rayN_https]
+127.0.0.1:10809 [HTTP] [v2rayN_http]
+127.0.0.1:7890 [HTTP] [clash_http]
+127.0.0.1:7891 [SOCKS5] [clash_socks]
